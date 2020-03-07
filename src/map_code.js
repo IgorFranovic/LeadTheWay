@@ -30,11 +30,42 @@ function getInstrGeoJson(instr,coord) {
     return instrPts
   }
 
+
+function reloadElement(element_id){
+    // Reloaduj element sa datim idem
+    var container = document.getElementById(element_id);
+    var content = container.innerHTML;
+    container.innerHTML = content;
+
+    console.log("Map Refreshed")
+}
+
+function isClose(l1, l2) {
+    // Vraca True ako su lokacije blizu (korisno za brisanje nekog waypointa) (otprilike 0.5 cm sa zoomom do kraja)
+    return (Math.sqrt((l1.lat - l2.lat)*(l1.lat - l2.lat) + (l1.lng - l2.lng)*(l1.lng - l2.lng)) <= 0.00015);
+}
+
 mymap.on('click', function(e) {
 
-    if (!confirm("Put waypoint at (" + e.latlng.lat + ", " + e.latlng.lng + ") ?")) return;
-
     loc = {lat: e.latlng.lat, lng: e.latlng.lng};
+
+    /*
+    Ukloni ako su bas blizu waypointi. Logika je dobra, samo nzm kako da pristupim stvarnom elementu mape
+    for (l of locations){
+        if (isClose(l, loc)){
+            if (confirm("Remove this waypoint?")){
+                locations.pop(l);
+                reloadElement("mapid")
+                return;
+            }
+        }
+    }
+    */
+    // Pitaj korisnika je li siguran da unese waypoint
+    if (!confirm("Put waypoint at (" + loc.lat + ", " + loc.lng + ") ?")) return;
+
+
+
     locations.push(loc);
     console.log('Sve unijete lokacije:');
     console.log(locations);
@@ -59,7 +90,7 @@ mymap.on('click', function(e) {
         // da se izvuku samo duzina rute i vrijeme
 
         rwp1 = new L.Routing.Waypoint();
-        rwp1.latLng = wp1;;
+        rwp1.latLng = wp1;
 
         rwp2 = new L.Routing.Waypoint();
         rwp2.latLng = wp2;
