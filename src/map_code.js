@@ -31,6 +31,9 @@ function getInstrGeoJson(instr,coord) {
   }
 
 mymap.on('click', function(e) {
+
+    if (!confirm("Put waypoint at (" + e.latlng.lat + ", " + e.latlng.lng + ") ?")) return;
+
     loc = {lat: e.latlng.lat, lng: e.latlng.lng};
     locations.push(loc);
     console.log('Sve unijete lokacije:');
@@ -52,21 +55,20 @@ mymap.on('click', function(e) {
             console.log(instr);
             // L.geoJson(getInstrGeoJson(instr,coord)).addTo(mymap);
         });
-        
+
         // da se izvuku samo duzina rute i vrijeme
-        
+
         rwp1 = new L.Routing.Waypoint();
         rwp1.latLng = wp1;;
-        
+
         rwp2 = new L.Routing.Waypoint();
         rwp2.latLng = wp2;
-        
+
         var myRoute = L.Routing.osrmv1();
         myRoute.route([rwp1, rwp2], function(err, routes) {
             console.log('Samo osnovni podaci o ruti:');
             console.log(routes[0].summary);
         });
-        
+
     }
 });
-
