@@ -1,3 +1,20 @@
 #mapid {
-    height: 700px;
+    height: 600px;
+    width: 700px;
+    display: inline-block;
+}
+
+#directions {
+    height: 600px;
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+button {
+    font-size: 20px;
+}
+
+#tour-list a {
+    font-size: 24px;
+    display: block;
 }
