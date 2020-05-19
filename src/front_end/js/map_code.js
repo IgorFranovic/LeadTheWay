@@ -3,7 +3,7 @@ Osnovno
 ===============================*/
 
 // Za sad odje treba iskopirati JWT token dobijen kroz Postman
-var accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODk3MTgzNzksImlhdCI6MTU4OTYzMTk3OSwibmJmIjoxNTg5NjMxOTc5LCJpZGVudGl0eSI6IjVlYmZkOGIzZDdjYmMzOTlmYmQyODJlNiJ9.rEZ3taS_PqihIItmQ37tfps9Azi1xmUpg4FCSzgOz0g'
+var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODk5ODI4NjAsImlhdCI6MTU4OTg5NjQ2MCwibmJmIjoxNTg5ODk2NDYwLCJpZGVudGl0eSI6IjVlYmZkOGIzZDdjYmMzOTlmYmQyODJlNiJ9.85ba_f0cGdZ6OF1K-eAlr8ac5k-HfTbXk5lxehmuHTg";
 //------------------------------------------------------------
 
 var mymap = L.map('mapid').setView([42.431071, 19.259379], 13);

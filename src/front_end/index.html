@@ -13,24 +13,78 @@
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js" defer></script>
     <script src="https://unpkg.com/esri-leaflet" defer></script>
     <script src="https://unpkg.com/esri-leaflet-geocoder" defer></script>
-    <script src="map_code.js" defer></script>
+    <script src="./js/map_code.js" defer></script>
+    <script src="./js/navbar.js" defer></script>
 
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./css/leaflet_styles.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
 </head>
 
-<body>
+<body id="bd">
     <div id="mapid"></div>
-    <div id="directions"></div>
+    <div id="directions">
+        <div class="closePanel" onclick="closePanel()">X</div>
+    </div>
     
     <br>
-    <button type="button" onclick="addTourToMap()">Find tour</button>
-    <button type="button" onclick="toggleTrafficData()">Toggle traffic data</button>
-    <button type="button" onclick="clearMarkers()">Clear markers</button>
-    <button type="button" onclick="clearRoutes()">Clear routes</button>
-    <button type="button" onclick="saveTour()">Save tour</button>
+
+    <!-- TOOLBAR -->
+    <div id="activate-toolbar1" onclick="toggleToolbar1()"></div>
+    <div id="toolbar1">
+        <div id="find-tour" onclick="addTourToMap()"></div>
+        <div id="save" onclick="saveTour()"></div>
+        <div id="open-directions" onclick="openDirections()"></div>
+    </div>
+
+    <div id="activate-toolbar2"  onclick="toggleToolbar2()"></div>
+    <div id="toolbar2"> 
+        <div id="traffic" onclick="toggleTrafficData();changeTrafficIcon();"></div>
+        <div id="clear-markers" onclick="clearMarkers()"></div>
+        <div id="clear-routes" onclick="clearRoutes()"></div>
+    </div>
     
-    <h2>My tours</h2>
-    <div id="tour-list"></div>
+
+
+    
+    <!-- NAVBAR -->
+    <div id="nav-holder">
+    </div>
+    <div class="bars" id="nav-action">
+        <span class="bar"> </span>
+    </div>
+    
+    <!--Navbar Links-->
+    <nav id="nav">
+        <ul>
+            <li class="shape-circle circle-one"><a onclick="openMyTours()" href="#">My Tours</a></li>
+            <li class="shape-circle circle-two"><a onclick="openPlanner()" href="login.html">Login</a></li>
+            <li class="shape-circle circle-three"><a href="#">Contact</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    
+    <!--My Tours-->
+    <div id="myTours">
+        <p class="title">
+            My Tours
+        </p>
+        <div id="tours">
+            <div id="tour-list"></div>
+        </div>
+        <div class="closePanel" onclick="closePanel()">X</div>
+    </div>
+
+    <!--Planner>
+    <div id="planner">
+        <p class="title">
+            Planner
+        </p>
+        
+    </div-->
+    
 </body>
 
 </html>

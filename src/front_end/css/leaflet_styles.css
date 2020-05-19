@@ -1,0 +1,89 @@
+
+
+#directions {
+    position: absolute;
+    
+    right: 2vw;
+    top: 30vh;
+    
+    max-height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    opacity: 80%;
+    display: inline-block;
+
+    z-index: 10;
+
+}
+
+.leaflet-routing-container {
+
+    background-color: rgb(123, 151, 233);
+    
+
+}
+
+path .leaflet-interactive {
+    background-color: blue;
+}
+
+
+.leaflet-bar a {
+    background-color:royalblue;
+    
+}
+.leaflet-bar a:nth-child(1) {
+    border-bottom: none;
+}
+
+.geocoder-control {
+    background-color: rgb(120, 148, 230);
+    position: fixed;
+    left: 35%;
+    top: 0%;
+    width: 25%;
+    opacity: 80%;
+    border-collapse: collapse;
+    
+    border: none;
+}
+
+.leaflet-control {
+    background-color: rgb(120, 148, 230);
+    
+}
+
+.geocoder-control-suggestions {
+    width: 100%;
+    border: solid black 1px;
+}
+
+
+
+#mapid > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.geocoder-control.leaflet-control > div > div {
+    
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-left: -35px;
+    
+}
+.geocoder-control-suggestions li {
+    font-size: 15px;
+    border-bottom: solid black 1px;    
+}
+
+.geocoder-control-suggestions li:hover {
+    background-color: rgb(236, 226, 226);
+}
+
+
+
+.geocoder-control-input {
+    width: 100%;
+}
+
+.leaflet-bottom {
+    display: none;
+}
+
