@@ -57,8 +57,19 @@ function mapFocused() {
 
 }
 
+document.querySelector('#open-tours').addEventListener('click', 
+    openMyTours.bind(null, localStorage.getItem('currUser') !== null));
 
-function openMyTours(){
+function openMyTours(loggedIn, event) {
+    if (loggedIn) {
+        // ...
+        console.log('logged in');
+    }
+    else {
+        // ...
+        console.log('logged out');
+    }
+    
     // Hide nav
     bars.classList.toggle('active');
     nav.classList.toggle('visible');

@@ -7,7 +7,7 @@ from extensions import db
 class TrafficAnalyzer:
     
     def __init__(self):
-        h = 16 # datetime.now().hour
+        h = datetime.now().hour
         self.traffic_data = db.traffic_data.find_one({ '$and': 
                                                         [   
                                                             { 'time_from': { '$lte': h } }, 

@@ -2,9 +2,12 @@
 Osnovno
 ===============================*/
 
-// Za sad odje treba iskopirati JWT token dobijen kroz Postman
-var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODk5ODI4NjAsImlhdCI6MTU4OTg5NjQ2MCwibmJmIjoxNTg5ODk2NDYwLCJpZGVudGl0eSI6IjVlYmZkOGIzZDdjYmMzOTlmYmQyODJlNiJ9.85ba_f0cGdZ6OF1K-eAlr8ac5k-HfTbXk5lxehmuHTg";
-//------------------------------------------------------------
+// localStorage.removeItem('accessToken');
+var currUser = JSON.parse(localStorage.getItem('currUser'));
+var accessToken = null;
+if (currUser !== null) {
+  accessToken = currUser.token;
+}
 
 var mymap = L.map('mapid').setView([42.431071, 19.259379], 13);
 
@@ -146,7 +149,8 @@ function addRouteToMap(wp1, wp2) {
     router: myRouter,
     lineOptions: {
       styles: [{color: 'blue', opacity: 1, weight: 3}]
-    }
+    },
+    fitSelectedRoutes: false
   });
   let dirBlock = r.onAdd(mymap);
   document.querySelector('#directions').appendChild(dirBlock);
@@ -225,7 +229,7 @@ function intensity2Color(I) {
 async function getTrafficData() {
   let date = new Date();
   // za sad jedino imamo period 15h-18h, inace predajemo trenutno vrijeme kao parametar
-  let url = 'http://localhost:5000/get_traffic_data?curr_hour=16'; // + date.getHours();
+  let url = 'http://localhost:5000/get_traffic_data?curr_hour=' + date.getHours();
   return fetch(url)
   .then((response) => {
     return response.json();
@@ -304,8 +308,18 @@ async function saveTour() {
       'tour': tour
     })
   })
+  .then((res) => {
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+    return res.json();
+  })
   .then((data) => {
     initTourList();
+  })
+  .catch((err) => {
+    localStorage.removeItem('currUser');
+    alert('You must be logged in to save a tour.');
   });
 }
 
@@ -317,8 +331,16 @@ async function getTours() {
       'Authorization': 'JWT ' + accessToken
     }
   })
-  .then((response) => {
-    return response.json();
+  .then((res) => {
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+    return res.json();
+  })
+  .catch((err) => {
+    localStorage.removeItem('currUser');
+    console.log('Unable to fetch tours. User not logged in.');
+    return null;
   });
 }
 
@@ -344,16 +366,20 @@ function tourSelected(index, event) {
 async function initTourList() {
   // jedino zanimljivo polje za ovu fju u tours[i] je name
   tours = await getTours();
-  let tourList = document.querySelector('#tour-list');
-  tourList.innerHTML = '';
-  for (let i = 0; i < tours.length; i++) {
-    // moze se mijenjati da ne budu <a> elementi
-    let curr = document.createElement('a');
-    curr.innerText = tours[i].name;
-    curr.href = '#';
-    curr.addEventListener('click', tourSelected.bind(null, i));
-    tourList.appendChild(curr);
+  if (tours !== null) {
+    let tourList = document.querySelector('#tour-list');
+    tourList.innerHTML = '';
+    for (let i = 0; i < tours.length; i++) {
+      // moze se mijenjati da ne budu <a> elementi
+      let curr = document.createElement('a');
+      curr.innerText = tours[i].name;
+      curr.href = '#';
+      curr.addEventListener('click', tourSelected.bind(null, i));
+      tourList.appendChild(curr);
+    }
   }
 }
 
 initTourList();
+
+// toggleTrafficData();

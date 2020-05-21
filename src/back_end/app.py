@@ -1,11 +1,13 @@
 from flask import Flask, request, make_response, jsonify
 from flask_cors import CORS
 from flask_jwt import JWT, jwt_required, current_identity
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from bson import json_util
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
+from time import time
 
 from genetic import geneticAlgorithm
 from traffic import TrafficAnalyzer
@@ -24,15 +26,30 @@ jwt = JWT(app, authenticate, identity)
 
 traffic_analyzer = TrafficAnalyzer()
 
+last_update_ts = time()
 
-# test
-@app.route('/hello', methods=['GET'])
-def hello():
-    return make_response('{"message": "ok"}', 200)
+
+@jwt.auth_response_handler
+def response_handler(access_token, identity):
+    query_res = db.users.find_one({ '_id': ObjectId(identity.id) })
+    return jsonify({
+                        'token': access_token.decode('utf-8'),
+                        'id': str(query_res['_id']),
+                        'username': query_res['username'],
+                        'password': query_res['password']
+                   })
 
 
 @app.route('/find_tour', methods=['POST'])
 def find_tour():
+    global last_update_ts
+    global traffic_analyzer
+    curr_ts = time()
+    if curr_ts - last_update_ts > 1000:
+        # update traffic data
+        traffic_analyzer = TrafficAnalyzer()
+        last_update_ts = curr_ts
+        print('Traffic data updated at', str(datetime.now()))
     try:
         data = request.get_json()
         W = data['W']
@@ -63,28 +80,18 @@ def get_traffic_data():
         return make_response('{"code": 1, "message": "Missing params in GET request"}', 400)
 
 
-@jwt.auth_response_handler
-def response_handler(access_token, identity):
-    query_res = db.users.find_one({ '_id': ObjectId(identity.id) })
-    return jsonify({
-                        'token': access_token.decode('utf-8'),
-                        'id': str(query_res['_id']),
-                        'username': query_res['username'],
-                        'password': query_res['password']
-                   })
-
-
 @app.route('/create_user', methods=['POST'])
 def create_user():
     try:
         data = request.json
         db.users.insert_one({
+            'email': data['email'],
             'username': data['username'],
             'password': generate_password_hash(data['password'])
         })
         return make_response('{"code": 0, "message": "User created successfully"}', 201)
     except:
-        return make_response('{"code": 1, "message": "Username already in use"}', 409)
+        return make_response('{"code": 1, "message": "Username/mail already in use"}', 409)
 
 
 @app.route('/save_tour', methods=['POST'])
