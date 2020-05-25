@@ -12,6 +12,12 @@ bars.addEventListener("click", barClicked, false);
 
 // setting up the clicked Effect
 function barClicked() {
+
+    if(localStorage.getItem('currUser') !== null) {  
+        document.getElementById('login-btn').innerText = "Logout";
+    } else {
+        document.getElementById('login-btn').innerText = "Login";
+    }
     
     bars.classList.toggle('active');
     nav.classList.toggle('visible');
@@ -57,19 +63,13 @@ function mapFocused() {
 
 }
 
+/*
 document.querySelector('#open-tours').addEventListener('click', 
     openMyTours.bind(null, localStorage.getItem('currUser') !== null));
+*/
+function openMyTours(event) {
+    var loggedIn = localStorage.getItem('currUser') !== null;
 
-function openMyTours(loggedIn, event) {
-    if (loggedIn) {
-        // ...
-        console.log('logged in');
-    }
-    else {
-        // ...
-        console.log('logged out');
-    }
-    
     // Hide nav
     bars.classList.toggle('active');
     nav.classList.toggle('visible');
@@ -77,6 +77,18 @@ function openMyTours(loggedIn, event) {
     
     document.getElementById("bd").style.opacity = "1";
     console.log("Opening MyTours");
+
+    if (loggedIn) {
+        // ...
+        console.log('My tours - logged in');
+    }
+    else {
+        document.getElementById("logged-out-warning").style.display = "block";
+        console.log('Must be logged in to open MyTours.');
+        return;
+    }
+    
+    
 
     
     document.getElementById("myTours").style.display = "block";
@@ -99,6 +111,7 @@ function closePanel() {
     
     document.getElementById("myTours").style.display = "none";
     document.getElementById("directions").style.display = "none";
+    document.getElementById("logged-out-warning").style.display = "none";
     document.getElementById("mapid").style.opacity = "1";
     document.getElementById("bd").style.opacity = "1";
 }
@@ -130,5 +143,19 @@ function openDirections() {
         document.getElementById("directions").style.display = "block";
     } else {
         document.getElementById("directions").style.display = "none";
+    }
+}
+
+
+
+function checkLog() {
+    closePanel();
+    if(localStorage.getItem('currUser') !== null) {  
+        // Logout
+        localStorage.setItem('currUser', null);
+        location.reload();
+        return false;
+    } else {
+        window.location.href = "./login.html";
     }
 }

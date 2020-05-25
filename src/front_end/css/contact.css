@@ -1,0 +1,55 @@
+
+
+html, body {
+    margin: 0;
+    height: 100%;
+    background: linear-gradient(to bottom right,rgb(172, 172, 201), rgb(76, 83, 173));
+}
+
+
+.info-container {
+    position: absolute;
+    
+    width: 20%;
+    top: 20%;
+    height: 50%;
+    background-color: rgb(150, 190, 142);
+    border-radius: 1%;    
+
+}
+
+.info-container:hover {
+    width: 22%;
+}
+
+p.title {
+    font-size: 2em;
+    text-align: center;
+}
+
+
+#Nikola {
+    left: 20%;
+}
+
+#Igor {
+    left: 50%;
+}
+
+.about {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+
+}
+
+.links {
+    position: absolute;
+    top: 60%;
+    left: 10%;
+}
+
+#home {
+    cursor: pointer;
+    font-size: 30px;
+}

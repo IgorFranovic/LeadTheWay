@@ -9,17 +9,23 @@
 
     <body>
 
+        <div id="app-name">
+            <p>LeadTheWay</p>
+        </div>
+        
         <div id="login-container">
             <p id="title">Login</p>
 
-            <p class="field">Username</p>
-            <input id="input-username" type="text"></input>
-            <p class="field">Password</p>
-            <input id="input-password" type="password"></input>
-
-            <!-- -->
-            <br>
-            <button onclick="login()">Sign in</button>
+            <div id="info-box">
+                <p class="field">Username</p>
+                <input id="input-username" placeholder="" type="text"></input>
+                <p class="field">Password</p>
+                <input id="input-password" placeholder="" type="password"></input>
+                <img onclick="showPassword()" id="pass-icon" src="images/hide_pass.png">
+            </div>
+            
+         
+            <div id="login-btn" onclick="login()">Sign in</div>
 
             <div class="reg">
                 <p>

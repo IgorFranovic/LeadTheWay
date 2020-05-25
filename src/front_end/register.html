@@ -4,24 +4,40 @@
         <link rel="stylesheet" href="css/register.css">
         <script src="js/register.js" defer></script>
 
+        
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js" defer></script>
+    <script src="https://unpkg.com/esri-leaflet" defer></script>
+    <script src="https://unpkg.com/esri-leaflet-geocoder" defer></script>
+    <script src="js/map_code.js"></script>
     </head>
 
 
     <body>
 
+        <div id="app-name">
+            <p>LeadTheWay</p>
+        </div>
         <div id="login-container">
             <p id="title">Register</p>
 
-            <p class="field">Email</p>
-            <input id="input-email" type="email"></input>
-            <p class="field">Username</p>
-            <input id="input-username" type="text"></input>
-            <p class="field">Password</p>
-            <input id="input-password" type="password"></input>
-
-            <!-- -->
-            <br>
-            <button onclick="register()">Sign up</button>
+            <div id="info-box">
+                <p class="field">Email</p>
+                <input id="input-email" type="email"></input>
+                <p class="field">Username</p>
+                <input id="input-username" type="text"></input>
+                <p class="field">Password</p>
+                <input id="input-password" type="password"></input>
+                <img onclick="showPassword()" id="pass-icon" src="images/hide_pass.png">
+    
+            </div>
+            
+            
+            <div id="signup-btn" onclick="register()">Sign up</div>
 
             <div class="reg">
                 <p>

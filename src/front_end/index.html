@@ -57,9 +57,9 @@
     <!--Navbar Links-->
     <nav id="nav">
         <ul>
-            <li class="shape-circle circle-one"><a id="open-tours" href="#">My Tours</a></li>
-            <li class="shape-circle circle-two"><a onclick="openPlanner()" href="login.html">Login</a></li>
-            <li class="shape-circle circle-three"><a href="#">Contact</a></li>
+            <li class="shape-circle circle-one"><a id="open-tours" onclick="openMyTours()" href="#">My Tours</a></li>
+            <li class="shape-circle circle-two"><a id="login-btn" onclick="checkLog()">Login</a></li>
+            <li class="shape-circle circle-three"><a href="contact.html">About</a></li>
             
         </ul>
     </nav>
@@ -77,14 +77,17 @@
         <div class="closePanel" onclick="closePanel()">X</div>
     </div>
 
-    <!--Planner>
-    <div id="planner">
-        <p class="title">
-            Planner
-        </p>
-        
-    </div-->
-    
+    <!-- NOTIFICATION -->
+    <div id="logged-out-warning">
+        <p>You must be logged in to use this feature.</p>
+        <div id="log-in-button" class="btn-one" onclick="checkLog()"><span>Login</span></div>
+        <div id="no-thanks1" class="btn-one" onclick="closePanel()"><span>No, thanks.</span></div>
+    </div>
+
+    <!-- LOADING ANIMATION -->
+    <div id="loader">
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
 </body>
 
 </html>

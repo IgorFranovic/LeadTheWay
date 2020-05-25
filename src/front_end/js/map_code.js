@@ -155,6 +155,7 @@ function addRouteToMap(wp1, wp2) {
   let dirBlock = r.onAdd(mymap);
   document.querySelector('#directions').appendChild(dirBlock);
   routeControls.push(r);
+  
 }
 
 // dovlaci json sa backenda
@@ -165,16 +166,23 @@ async function findTour() {
     body: JSON.stringify({"W": W, "R": coords})
   });
   return response.json();
+  
 }
 
 // dodaje kompletan obilazak na mapu
 async function addTourToMap() {
+  /* Play loading animation */
+  document.getElementById("loader").style.display = "inline-block";
   if(waypoints.length < 2) {
+    /* Stop loading animation */
+    document.getElementById("loader").style.display = "none";
     return;
   }
+
   else if (waypoints.length === 2) {
     addRouteToMap(waypoints[0], waypoints[1]);
     addRouteToMap(waypoints[1], waypoints[0]);
+    
   }
   else {
     findTour()
@@ -184,6 +192,8 @@ async function addTourToMap() {
         addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]]);
       }
       addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
+      /* Stop loading animation */
+      document.getElementById("loader").style.display = "none";
     });
   }
 }
@@ -292,6 +302,14 @@ var tours = [];
 
 // cuva tekuci obilazak u bazi
 async function saveTour() {
+
+  /* Check if logged in */ 
+  if(localStorage.getItem('currUser')===null) {
+    document.getElementById("logged-out-warning").style.display = "block";
+    console.log("Must be logged in to save tours.");
+    return;
+  }
+
   if (!routeControls.length) {
     return;
   }
@@ -346,6 +364,15 @@ async function getTours() {
 
 // kad korisnik selektuje jedan od sacuvanih obilazaka - prikazuje ga na mapi
 function tourSelected(index, event) {
+  /* Play loading animation */
+  document.getElementById("loader").style.display = "inline-block";
+
+  var timer = setTimeout(function() {
+    /* Stop playing the animation */
+    document.getElementById("loader").style.display = "none";
+  }, 1500);
+
+
   clearRoutes();
   clearMarkers();
   routeControls = [];
@@ -359,6 +386,8 @@ function tourSelected(index, event) {
     addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]]);
     addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
   }
+
+  
 }
 
 // !
@@ -378,6 +407,7 @@ async function initTourList() {
       tourList.appendChild(curr);
     }
   }
+  
 }
 
 initTourList();

@@ -3,27 +3,90 @@
 html, body {
     margin: 0;
     height: 100%;
-    background: linear-gradient(to bottom right, rgb(185, 41, 41), rgb(109, 109, 156));
+    background: url("../images/bg1.JPG");
+   
+    
+}
+
+
+#app-name {
+    position: absolute;
+    font-size: 70px;
+    left: 36%;
+    top: -10%;
+    color: rgb(147, 152, 221);
+    opacity: 0.9;
+    
+    text-align: center;
 }
 
 #login-container {
+    min-height: 480px;
+    min-width: 320px;
     position: absolute;
     left: 37.5%;
-    top: 20%;
-    height: 60%;
+    top: 25%;
+    height: 50%;
     width: 25%;
 
     border-radius: 10%;
-    background-color: salmon;
+    background-color: rgb(147, 152, 221);
+    opacity: 0.9;
+}
 
+@media screen and (max-height: 600) {
+    #app-name {
+        font-size: 30px;
+    }
+}
+p {
+    text-align: center;
+}
+
+#signup-btn {
+    position: absolute;
+    left: 45%;
+    top: 75%;
     
+    border-radius: 20%;
+    cursor: pointer;
     
+}
+#signup-btn:hover {
+    animation: SignUpAnimation ease-in infinite 1s;
+}
+
+@keyframes SignUpAnimation {
+    0% {
+        letter-spacing: normal;
+
+    }
+
+    50% {
+        letter-spacing: 2px;
+        font-size: 1.2em;
+        left: 44%;
+    }
+    100% {
+        letter-spacing: normal;
+    }
 }
 
 #title {
     text-align: center;
     font-size: 40px;
     color: white;
+}
+
+#info-box {
+    
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 80%;
+
+
+    
 }
 
 input {
@@ -35,6 +98,10 @@ input {
     border-bottom: 1px solid black;
 }
 
+input:focus {
+    outline: none;
+}
+
 .field {
     text-align: center;
     color: white;
@@ -42,10 +109,19 @@ input {
 }
 
 .reg {
-    position: relative;
-    margin-top: 20%;
+    position: absolute;
+    bottom: 10%;
+    left: 20%;
     
 }
+#pass-icon {
+    position: absolute;
+    right: 5%;
+    bottom: 0%;
+    cursor: pointer;
+}
+
+
 
 .reg p {
     text-align: center;
@@ -58,15 +134,22 @@ input {
 
 
 #go-home {
-    position: relative;
+    position: absolute;
 
+    bottom: 1%;
     width: 50px;
-    height: 30px;
+    
     left: 45%;
     
     
     text-align: center;
+    
+    border-radius: 20%;
     cursor: pointer;
+}
+
+#go-home:hover {
+    animation: SignUpAnimation ease-in infinite 1s;
 }
 
 ::-webkit-scrollbar {
