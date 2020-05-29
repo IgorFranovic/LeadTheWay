@@ -120,3 +120,33 @@ def get_tours():
         return make_response(json_util.dumps(data), 200)
     except:
         return make_response('{"code": 1, "message": "Missing params in GET request"}', 400)
+
+
+@app.route('/delete_tour', methods=['DELETE'])
+@jwt_required()
+def delete_tour():
+    try:
+        id = current_identity.id
+        tour_id = request.json['tour_id']
+        tour = db.tours.find_one({ '_id': ObjectId(tour_id) })
+        if str(tour['user_id']) != id:
+            return make_response('{"code": 2, "message": "Unauthorized"}', 401)
+        db.tours.delete_one({ '_id': ObjectId(tour_id) })
+        return make_response('{"code": 0, "message": "Tour deleted successfully"}', 200)
+    except:
+        return make_response('{"code": 1, "message": "Missing fields in POST body"}', 400)
+
+
+@app.route('/rename_tour', methods=['PUT'])
+@jwt_required()
+def rename_tour():
+    try:
+        id = current_identity.id
+        tour_id = request.json['tour_id']
+        tour = db.tours.find_one({ '_id': ObjectId(tour_id) })
+        if str(tour['user_id']) != id:
+            return make_response('{"code": 2, "message": "Unauthorized"}', 401)
+        db.tours.update_one({ '_id': ObjectId(tour_id) }, { '$set': {'name': request.json['name']} }, False)
+        return make_response('{"code": 0, "message": "Tour renamed successfully"}', 200)
+    except:
+        return make_response('{"code": 1, "message": "Missing fields in POST body"}', 400)

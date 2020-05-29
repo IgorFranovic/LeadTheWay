@@ -173,6 +173,10 @@ async function findTour() {
 async function addTourToMap() {
   /* Play loading animation */
   document.getElementById("loader").style.display = "inline-block";
+  
+  clearRoutes();
+  routeControls = [];
+
   if(waypoints.length < 2) {
     /* Stop loading animation */
     document.getElementById("loader").style.display = "none";
@@ -182,7 +186,7 @@ async function addTourToMap() {
   else if (waypoints.length === 2) {
     addRouteToMap(waypoints[0], waypoints[1]);
     addRouteToMap(waypoints[1], waypoints[0]);
-    
+    document.getElementById("loader").style.display = "none";
   }
   else {
     findTour()
@@ -367,10 +371,10 @@ function tourSelected(index, event) {
   /* Play loading animation */
   document.getElementById("loader").style.display = "inline-block";
 
-  var timer = setTimeout(function() {
-    /* Stop playing the animation */
+  /*var timer = setTimeout(function() {
+    // Stop playing the animation
     document.getElementById("loader").style.display = "none";
-  }, 1500);
+  }, 1500);*/
 
 
   clearRoutes();
@@ -384,10 +388,71 @@ function tourSelected(index, event) {
   }
   for (let i = 0; i < waypoints.length-1; i++) {
     addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]]);
-    addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
   }
-
+  addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
   
+}
+
+// !!!
+// Da se registruje kad su rute dodate na mapu
+mymap.on('layeradd', (e) => {
+  if (e.layer._route) {
+    document.getElementById("loader").style.display = "none";
+  }
+});
+
+function renameTour(index, event) {
+  let tourId = tours[index]._id.$oid;
+  let newName = event.currentTarget.previousSibling.value;
+  if (newName.length === 0) {
+    return;
+  }
+  fetch('http://localhost:5000/rename_tour', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + accessToken
+    },
+    body: JSON.stringify({
+      'tour_id': tourId,
+      'name': newName
+    })
+  })
+  .then((res) => {
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+    initTourList();
+  })
+  .catch((err) => {
+    localStorage.removeItem('currUser');
+    console.log('Unable to rename tour. User not logged in.');
+  });
+}
+
+function deleteTour(index, event) {
+  let tourId = tours[index]._id.$oid;
+  fetch('http://localhost:5000/delete_tour', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'JWT ' + accessToken
+    },
+    body: JSON.stringify({
+      'tour_id': tourId
+    })
+  })
+  .then((res) => {
+    if (!res.ok) {
+        throw Error(res.statusText);
+    }
+    initTourList();
+    alert('Tour deleted successfully');
+  })
+  .catch((err) => {
+    localStorage.removeItem('currUser');
+    console.log('Unable to delete tour. User not logged in.');
+  });
 }
 
 // !
@@ -399,12 +464,31 @@ async function initTourList() {
     let tourList = document.querySelector('#tour-list');
     tourList.innerHTML = '';
     for (let i = 0; i < tours.length; i++) {
-      // moze se mijenjati da ne budu <a> elementi
-      let curr = document.createElement('a');
-      curr.innerText = tours[i].name;
-      curr.href = '#';
-      curr.addEventListener('click', tourSelected.bind(null, i));
-      tourList.appendChild(curr);
+      let currDiv = document.createElement('div');
+
+      let currLink = document.createElement('a');
+      currLink.innerText = tours[i].name;
+      currLink.href = '#';
+      currLink.addEventListener('click', tourSelected.bind(null, i));
+
+      let currTxt = document.createElement('input');
+      currTxt.type = 'text';
+      currTxt.placeholder = 'new_name';
+
+      let currRen = document.createElement('button');
+      currRen.innerText = 'Rename';
+      currRen.addEventListener('click', renameTour.bind(null, i));
+
+      let currDel = document.createElement('button');
+      currDel.innerText = 'X';
+      currDel.addEventListener('click', deleteTour.bind(null, i));
+
+      currDiv.appendChild(currLink);
+      currDiv.appendChild(currTxt);
+      currDiv.appendChild(currRen);
+      currDiv.appendChild(currDel);
+
+      tourList.appendChild(currDiv);
     }
   }
   
