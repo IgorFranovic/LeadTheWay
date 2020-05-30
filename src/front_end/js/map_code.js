@@ -465,28 +465,41 @@ async function initTourList() {
     tourList.innerHTML = '';
     for (let i = 0; i < tours.length; i++) {
       let currDiv = document.createElement('div');
+      currDiv.classList.add('tour-extra-outer')
+
+      let currInfo = document.createElement('button');
+      currInfo.innerText = '\\/';
+      currInfo.classList.add('info-btn');
 
       let currLink = document.createElement('a');
       currLink.innerText = tours[i].name;
       currLink.href = '#';
       currLink.addEventListener('click', tourSelected.bind(null, i));
 
+      let innerDiv = document.createElement('div');
+      innerDiv.classList.add('tour-extra-inner');
+
       let currTxt = document.createElement('input');
       currTxt.type = 'text';
+      currTxt.classList.add('rename-input')
       currTxt.placeholder = 'new_name';
 
       let currRen = document.createElement('button');
       currRen.innerText = 'Rename';
+      currRen.classList.add('rename-btn');
       currRen.addEventListener('click', renameTour.bind(null, i));
 
       let currDel = document.createElement('button');
+      currDel.classList.add('delete-btn');
       currDel.innerText = 'X';
       currDel.addEventListener('click', deleteTour.bind(null, i));
 
       currDiv.appendChild(currLink);
-      currDiv.appendChild(currTxt);
-      currDiv.appendChild(currRen);
-      currDiv.appendChild(currDel);
+      currDiv.appendChild(currInfo);
+      innerDiv.appendChild(currTxt);
+      innerDiv.appendChild(currRen);
+      innerDiv.appendChild(currDel);
+      currDiv.appendChild(innerDiv);
 
       tourList.appendChild(currDiv);
     }
