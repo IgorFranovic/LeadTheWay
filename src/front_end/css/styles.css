@@ -174,14 +174,16 @@ button {
 
 
 #toolbar1 {
-    background: linear-gradient(to left, rgb(84, 129, 207), rgb(55, 90, 146));
+    background: linear-gradient(to left, rgba(84, 129, 207, 0.3), rgba(55, 90, 146, 1));
     position: absolute;
     left: 25%;
     right: 49%;
     bottom: 0%;
-    border-top-left-radius: 35%;
-    border-top-right-radius: 10%;
+    
     height: 30px;
+
+    border-top: 1px solid rgb(102, 87, 87);
+    border-left: 1px solid rgb(116, 96, 96), 111);
     
 
     overflow: hidden;    
@@ -220,6 +222,7 @@ button {
     z-index: 40;
 
     background-image: url("../images/expand_left.png");
+    
     background-repeat: no-repeat;
 
     
@@ -262,19 +265,19 @@ button {
 
   #toolbar2 {
     /*background-color: rgb(49, 110, 214);*/
-    background: linear-gradient(to right, rgb(84, 129, 207), rgb(55, 90, 146));
+    background: linear-gradient(to right, rgba(84, 129, 207, 0.3), rgb(55, 90, 146, 1));
     position: absolute;
     left: 51%;
-    right: 15%;
+    right: 25%;
     bottom: 0%;
-    border-top-left-radius: 10%;
-    border-top-right-radius: 35%;
+    border-top: 1px solid rgb(102, 87, 87);
+    border-right: 1px solid rgb(116, 96, 96), 111);
     
     display: none;
     overflow: hidden;    
     
 
-    animation: fadeInT2 1s ease-out;
+    animation: fadeInT2 0.66s ease-out;
     z-index: 30;
     
 }
@@ -299,7 +302,7 @@ button {
 
 #activate-toolbar2 {
     position: absolute;
-    left: 52%;
+    left: 51.5%;
     bottom: 0;
     
     width: 40px;
@@ -326,7 +329,7 @@ button {
       
     }
     100% {
-        right: 15%;
+        right: 25%;
         
     }
   }
@@ -398,7 +401,7 @@ button {
     position: relative;
     
     float: right;
-    margin-right: 10%;
+    margin-right: 11%;
     
     height: 30px;
     width: 30px;
@@ -447,6 +450,7 @@ h2, h3 {
     border-radius: 10%;
     color: rgb(243, 241, 241);
     min-height: 200px;
+    opacity: 0.9;
 }
 
 #logged-out-warning p {
