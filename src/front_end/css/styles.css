@@ -400,11 +400,24 @@ button {
 
 #traffic-dropdown {
     position: absolute;
-    left: 65%;
-    bottom: 30px;
+    left: 67.95%;
+    bottom: 31px;
     z-index: 200;
     background-color: rgb(115, 137, 204);
+    background: linear-gradient(rgba(159, 167, 190, 0.7), rgb(65, 99, 153));
     display: none;
+    border: 1px solid rgb(95, 87, 87);
+    border-bottom: none;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 3%;
+}
+
+
+#traffic-dropdown label {
+    border-bottom: 1px solid black;
+}
+#tr21 + label {
+    border-bottom: none;
 }
 
 #traffic-dropdown-toggle {
