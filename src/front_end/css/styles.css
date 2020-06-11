@@ -61,7 +61,7 @@ button {
     bottom: 40%;
     right: 70%;
     background-color: rgb(49, 110, 214);
-    /* display: none; */
+    display: none;
     opacity: 1;
     border-radius: 2%;
     text-align: center;
@@ -183,7 +183,7 @@ button {
     height: 30px;
 
     border-top: 1px solid rgb(102, 87, 87);
-    border-left: 1px solid rgb(116, 96, 96), 111);
+    border-left: 1px solid rgb(116, 96, 96, 111);
     
 
     overflow: hidden;    
@@ -271,7 +271,7 @@ button {
     right: 25%;
     bottom: 0%;
     border-top: 1px solid rgb(102, 87, 87);
-    border-right: 1px solid rgb(116, 96, 96), 111);
+    border-right: 1px solid rgb(116, 96, 96, 111);
     
     display: none;
     overflow: hidden;    
@@ -397,11 +397,38 @@ button {
     display: inline-block;
 }
 
-#traffic {
+
+#traffic-dropdown {
+    position: absolute;
+    left: 65%;
+    bottom: 30px;
+    z-index: 200;
+    background-color: rgb(115, 137, 204);
+    display: none;
+}
+
+#traffic-dropdown-toggle {
     position: relative;
     
     float: right;
     margin-right: 11%;
+
+    height: 30px;
+    width: 30px;
+    background-image: url("../images/settings_icon.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+}
+
+#traffic {
+    /*position: relative;
+    
+    float: right;
+    margin-right: 11%;*/
+
+    position: absolute;
+    right: 25%;
     
     height: 30px;
     width: 30px;
@@ -413,7 +440,7 @@ button {
 
 #clear-markers {
     position: absolute;
-    right: 30%;
+    right: 40%;
     height: 30px;
     width: 30px;
     background-image: url("../images/clear_markers.png");
@@ -423,7 +450,7 @@ button {
 
 #clear-routes {
     position: absolute;
-    right: 50%;
+    right: 55%;
     height: 30px;
     width: 30px;
     background-image: url("../images/clear_routes.png");

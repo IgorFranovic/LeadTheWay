@@ -25,6 +25,33 @@ app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=86400)
 jwt = JWT(app, authenticate, identity)
 
 traffic_analyzer = TrafficAnalyzer()
+all_analyzers = [
+    TrafficAnalyzer(h=0),
+    TrafficAnalyzer(h=6),
+    TrafficAnalyzer(h=9),
+    TrafficAnalyzer(h=12),
+    TrafficAnalyzer(h=15),
+    TrafficAnalyzer(h=18),
+    TrafficAnalyzer(h=21)
+]
+def get_analyzer(h):
+    if 0 <= h and h < 6:
+        return all_analyzers[0]
+    elif 6 <= h and h < 9:
+        return all_analyzers[1]
+    elif 9 <= h and h < 12:
+        return all_analyzers[2]
+    elif 12 <= h and h < 15:
+        return all_analyzers[3]
+    elif 15 <= h and h < 18:
+        return all_analyzers[4]
+    elif 18 <= h and h < 21:
+        return all_analyzers[5]
+    elif 21 <= h and h < 24:
+        return all_analyzers[6]
+    else:
+        return None
+
 
 last_update_ts = time()
 
@@ -54,7 +81,10 @@ def find_tour():
         data = request.get_json()
         W = data['W']
         R = data['R']
-        traffic_analyzer.scale_weights(W, R)
+        if 'custom_hour' not in data:
+            traffic_analyzer.scale_weights(W, R)
+        else:
+            get_analyzer(int(data['custom_hour'])).scale_weights(W, R)
         tour = geneticAlgorithm(W, int(len(W)**2))
         res = {'tour': tour}
         return make_response(jsonify(res), 200)
@@ -64,11 +94,10 @@ def find_tour():
 
 @app.route('/get_traffic_data', methods=['GET'])
 def get_traffic_data():
-    """with open('./traffic_data.json', 'r') as f:
-        data = f.read()
-    return make_response(jsonify(data), 200)"""
     try:
         h = int(request.args['curr_hour'])
+        if 'custom_hour' in request.args:
+            h = int(request.args['custom_hour'])
         data = db.traffic_data.find_one({ '$and': 
                                             [   
                                                 { 'time_from': { '$lte': h } }, 

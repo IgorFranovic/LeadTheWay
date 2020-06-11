@@ -39,12 +39,47 @@
 
     <div id="activate-toolbar2"  onclick="toggleToolbar2()"></div>
     <div id="toolbar2"> 
+        <div id="traffic-dropdown-toggle" onclick="toggleTrafficList()"></div>
         <div id="traffic" onclick="toggleTrafficData();changeTrafficIcon();"></div>
         <div id="clear-markers" onclick="clearMarkers()"></div>
         <div id="clear-routes" onclick="clearRoutes()"></div>
     </div>
-    
 
+
+    <div id="traffic-dropdown">
+        <div>
+            <input type="radio" id="tr-default" name="traffic-radio" value="-1" checked>
+            <label for="tr-default">Current time</label>
+        </div>
+        <div>
+            <input type="radio" id="tr0" name="traffic-radio" value="0">
+            <label for="tr0">00:00-06:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr6" name="traffic-radio" value="6">
+            <label for="tr6">06:00-09:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr9" name="traffic-radio" value="9">
+            <label for="tr9">09:00-12:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr12" name="traffic-radio" value="12">
+            <label for="tr12">12:00-15:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr15" name="traffic-radio" value="15">
+            <label for="tr15">15:00-18:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr18" name="traffic-radio" value="18">
+            <label for="tr18">18:00-21:00</label>
+        </div>
+        <div>
+            <input type="radio" id="tr21" name="traffic-radio" value="21">
+            <label for="tr21">21:00-00:00</label>
+        </div>
+    </div>
 
     
     <!-- NAVBAR -->

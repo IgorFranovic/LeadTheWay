@@ -143,12 +143,13 @@ var routeControls = [];
 var tour = [];
 
 // dodaje jednu rutu oblika A->B na mapu
-function addRouteToMap(wp1, wp2) {
+function addRouteToMap(wp1, wp2, i, n) {
+  //console.log('rgb(0,' + (255-Math.floor(100*i/n)) + ',' + (255-Math.floor(100*i/n)) + ')');
   let r = L.Routing.control({
     waypoints: [wp1, wp2],
     router: myRouter,
     lineOptions: {
-      styles: [{color: 'blue', opacity: 1, weight: 3}]
+      styles: [{color: 'rgb(0,' + (Math.floor(255*i/n)) + ',255)', opacity: 1, weight: 5}]
     },
     fitSelectedRoutes: false
   });
@@ -160,10 +161,14 @@ function addRouteToMap(wp1, wp2) {
 
 // dovlaci json sa backenda
 async function findTour() {
+  let postBody = {"W": W, "R": coords};
+  if (customHour !== -1) {
+    postBody['custom_hour'] = customHour;
+  }
   let response = await fetch('http://localhost:5000/find_tour', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({"W": W, "R": coords})
+    body: JSON.stringify(postBody)
   });
   return response.json();
   
@@ -184,18 +189,20 @@ async function addTourToMap() {
   }
 
   else if (waypoints.length === 2) {
-    addRouteToMap(waypoints[0], waypoints[1]);
-    addRouteToMap(waypoints[1], waypoints[0]);
+    addRouteToMap(waypoints[0], waypoints[1], 0, 2);
+    addRouteToMap(waypoints[1], waypoints[0], 1, 2);
     document.getElementById("loader").style.display = "none";
   }
   else {
     findTour()
     .then((data) => {
-      tour = data.tour;
+      let t1 = data.tour.slice(data.tour.indexOf(0));
+      let t2 = data.tour.slice(0, data.tour.indexOf(0));
+      tour = t1.concat(t2);
       for (let i = 0; i < waypoints.length-1; i++) {
-        addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]]);
+        addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]], i, tour.length);
       }
-      addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
+      addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]], tour.length-1, tour.length);
       /* Stop loading animation */
       document.getElementById("loader").style.display = "none";
     });
@@ -220,6 +227,25 @@ Rad sa podacima o saobracaju
 
 // ne moze u geojsonu jer on ne podrzava krugove kao tip feature-a
 var trafficData = {locations: [], loaded: false};
+var customHour = -1;
+
+function toggleTrafficList() {
+  let tl = document.querySelector('#traffic-dropdown');
+  if (tl.style.display === 'none') {
+    tl.style.display = 'block';
+  }
+  else {
+    tl.style.display = 'none';
+  }
+}
+
+for (let rb of document.querySelectorAll('input[name="traffic-radio"]')) {
+  rb.addEventListener('change', trafficChange);
+}
+
+function trafficChange(e) {
+  customHour = e.currentTarget.value;
+}
 
 // prevodi broj u rgb boju
 function intensity2Color(I) {
@@ -244,6 +270,9 @@ async function getTrafficData() {
   let date = new Date();
   // za sad jedino imamo period 15h-18h, inace predajemo trenutno vrijeme kao parametar
   let url = 'http://localhost:5000/get_traffic_data?curr_hour=' + date.getHours();
+  if (customHour !== -1) {
+    url += ('&custom_hour=' + customHour);
+  }
   return fetch(url)
   .then((response) => {
     return response.json();
@@ -387,9 +416,9 @@ function tourSelected(index, event) {
     addWaypoint(wp.lat, wp.lng);
   }
   for (let i = 0; i < waypoints.length-1; i++) {
-    addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]]);
+    addRouteToMap(waypoints[tour[i]], waypoints[tour[i+1]], i, tour.length);
   }
-  addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]]);
+  addRouteToMap(waypoints[tour[tour.length-1]], waypoints[tour[0]], tour.length-1, tour.length);
   
 }
 
