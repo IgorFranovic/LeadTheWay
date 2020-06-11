@@ -3,37 +3,64 @@
 html, body {
     margin: 0;
     height: 100%;
-    background: linear-gradient(to bottom right,rgb(172, 172, 201), rgb(76, 83, 173));
+    background: url("../images/contact5.jpg");   
+    background-repeat: no-repeat; 
+    background-size: cover;
 }
 
 
 .info-container {
     position: absolute;
     
-    width: 20%;
-    top: 20%;
-    height: 50%;
-    background-color: rgb(150, 190, 142);
-    border-radius: 1%;    
-
+    width: 50%;
+    left: 25%;
+    height: 33%;
+    
+    border-radius: 5px;    
+    opacity: 0.9;
+    
 }
 
-.info-container:hover {
-    width: 22%;
-}
 
 p.title {
     font-size: 2em;
     text-align: center;
 }
 
+.about {
+    background-color: rgba(173, 177, 206, 0.5);
+    border-radius: 10px;    
 
-#Nikola {
-    left: 20%;
 }
 
+.links {
+    
+    background: rgba(173, 177, 206, 0.5);
+    border-radius: 10px;   
+    
+    
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    
+}
+
+img {
+    height: 24px;
+}
+
+#Nikola {
+    top: 15%;
+    background: linear-gradient(rgba(173, 177, 206, 0.3), rgba(86, 78, 119, 0.9)), url("../images/nikola_bg.JPG");
+    
+}
+
+
 #Igor {
-    left: 50%;
+    top: 60%;
+    background: linear-gradient(rgba(173, 177, 206, 0.3), rgba(86, 78, 119, 0.9)), url("../images/igor_bg.JPG");
 }
 
 .about {
